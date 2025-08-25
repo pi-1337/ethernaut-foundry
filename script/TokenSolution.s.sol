@@ -7,12 +7,12 @@ import "forge-std/console.sol";
 
 contract TokenSolution is Script {
 
-    Token public tokenInstance = Token(0xC2D4576Ad8b9D1a7f5c353037286bEF02af3686C);
+    Token public tokenInstance = Token(0x992Aa34Be5f45842e82dC2663Fa3b0E4fb5b0466);
 
     function run() external {
         vm.startBroadcast(vm.envUint("PRIVATE_KEY"));
         tokenInstance.transfer(address(0), 21);
-        console.log("My balance: ", tokenInstance.balanceOf(vm.envAddress("MY_ADDRESS")));
+        console.log("My balance: ", tokenInstance.balanceOf(vm.envAddress("PUBLIC_KEY")));
         vm.stopBroadcast();
     }
 }

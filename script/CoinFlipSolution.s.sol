@@ -8,22 +8,23 @@ import "forge-std/console.sol";
 contract Player {
     uint256 constant FACTOR = 57896044618658097711785492504343953926634992332820282019728792003956564819968;
 
-    constructor(CoinFlip _coinFlipInstance) {
+    constructor(CoinFlip c)
+    {
         uint256 blockValue = uint256(blockhash(block.number - 1));
         uint256 coinFlip = blockValue / FACTOR;
         bool side = coinFlip == 1 ? true : false;
-        _coinFlipInstance.flip(side);
+        c.flip(side);
     }
 }
 
 contract CoinFlipSolution is Script {
 
-    CoinFlip public coinflipInstance = CoinFlip(0xcf55ff22ab6417d196A3AE81C3073A33aA310037);
+    CoinFlip public coinflipInstance = CoinFlip(0x08b89871C8cA09F220AD9Bb01297d790402Be6Ca);
 
     function run() external {
         vm.startBroadcast(vm.envUint("PRIVATE_KEY"));
         new Player(coinflipInstance);
-        console.log("consecutiveWins: ", coinflipInstance.consecutiveWins());
+        console.log("i win yay ---> here is how many", coinflipInstance.consecutiveWins());
         vm.stopBroadcast();
     }
 }

