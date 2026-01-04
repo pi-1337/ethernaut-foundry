@@ -1,11 +1,14 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.5.0;
+pragma solidity ^0.8.0;
 
-import "../helpers/Ownable-05.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract AlienCodex is Ownable {
+contract AlienCodex is Ownable(address(0)) {
     bool public contact;
     bytes32[] public codex;
+
+    constructor(address initialOwner) {
+    }
 
     modifier contacted() {
         assert(contact);
@@ -21,7 +24,6 @@ contract AlienCodex is Ownable {
     }
 
     function retract() public contacted {
-        codex.length--;
     }
 
     function revise(uint256 i, bytes32 _content) public contacted {
