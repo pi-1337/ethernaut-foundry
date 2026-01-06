@@ -15,6 +15,8 @@ contract RecoverySolver is Script {
         
         vm.startBroadcast(prv);
         
+        uint256 nonce = 0;
+        
         // the address of the contract is predictable
         address predicted = address(
             uint160(

