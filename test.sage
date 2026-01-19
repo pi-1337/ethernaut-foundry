@@ -1,0 +1,48 @@
+# Set up the prime p for the secp256kdddddddddd1 curve
+p = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F
+a = 0x0000000000000000000000000000000000000000000000000000000000000000
+b = 0x0000000000000000000000000000000000000000000000000000000000000007
+
+# Create the finite field GF(p)
+K = GF(p)
+
+# Define the elliptic curve E over GF(p)
+E = EllipticCurve(K, [a, b])
+
+# Generator point G = (Gx, Gy)
+Gx = 0x79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798
+Gy = 0x483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8
+
+# Define the generator point G
+G = E(Gx, Gy)
+
+# Define the private key (as a scalar)
+privkey = 0x398975a87c75312d5e59f6f5f95995c8c33e1cd4f0c8692e567daf3b08c1a965
+
+# Public key is the scalar multiplication of privkey with the generator point G
+pubkey = privkey * G
+
+# Extract the x and y coordinates of the public key
+x, y = pubkey.xy()
+
+# Print the public key (x, y) in hexadecimal format
+print(f"Public Key (x, y): ({hex(x)}, {hex(y)})")
+
+# Concatenate the x and y hex values (remove '0x' prefix from y part)
+pubkey_hex = hex(x)[2:] + hex(y)[2:]
+
+# Print the concatenated public key in hex format
+print(f"Public Key Concatenated: {pubkey_hex}")
+
+# Now, perform the Keccak-256 hash (Ethereum address generation)
+from hashlib import sha3_256
+
+# Compute the Keccak-256 hash of the concatenated public key
+keccak_hash = sha3_256(bytes.fromhex(pubkey_hex)).hexdigest()
+
+# Ethereum address is the last 20 bytes of the hash
+eth_address = '0x' + keccak_hash[-40:]
+
+# Print the Ethereum address
+print(f"Ethereum Address: {eth_address}")
+
