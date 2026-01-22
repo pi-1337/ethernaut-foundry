@@ -5,13 +5,13 @@ import {Ownable} from "openzeppelin-contracts/contracts/access/Ownable.sol";
 import {ECDSA} from "openzeppelin-contracts/contracts/utils/cryptography/ECDSA.sol";
 import {ERC20} from "openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
 
-contract EllipticToken is Ownable(address(0)), ERC20 {
+contract EllipticToken is Ownable, ERC20 {
     error HashAlreadyUsed();
     error InvalidOwner();
     error InvalidReceiver();
     error InvalidSpender();
 
-    constructor() ERC20("EllipticToken", "ETK") {}
+    constructor() ERC20("EllipticToken", "ETK") Ownable(address(0)) {}
 
     mapping(bytes32 => bool) public usedHashes;
 
