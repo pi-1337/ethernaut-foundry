@@ -9,7 +9,7 @@ contract FalloutSolver is Script {
 	Fallout public instance = Fallout(payable(0x5001b464f6BE60584487B5B34676D36Bd3B786Df));
 
 	uint256 prv = vm.envUint("PRV");
-	address pub = vm.envAddress("PUB");
+	address me = vm.envAddress("PUB");
 
 	function run () external {
 

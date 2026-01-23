@@ -9,7 +9,7 @@ contract VaultSolver is Script {
     Vault public instance = Vault(0xB2CBDD190cE09355100573A9031Ac8CEc701A2e3);
 
 	uint256 prv = vm.envUint("PRV");
-	address pub = vm.envAddress("PUB");
+	address me = vm.envAddress("PUB");
 
     function run() external {
         vm.startBroadcast(prv);

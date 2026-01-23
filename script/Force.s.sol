@@ -18,7 +18,7 @@ contract ForceSolver is Script {
     Force public instance = Force(payable(0x7Cd565E3CCC53eb4D990c9bBdB41ba0617552432));
 
 	uint256 prv = vm.envUint("PRV");
-	address pub = vm.envAddress("PUB");
+	address me = vm.envAddress("PUB");
 
     function run() external {
         vm.startBroadcast(prv);

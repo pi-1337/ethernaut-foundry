@@ -9,7 +9,7 @@ contract FallbackSolver is Script {
 	Fallback public  instance = Fallback(payable(0x53c735c03B5Edd738778d30f117366e3eb47F931));
 
 	uint256 prv = vm.envUint("PRV");
-	address pub = vm.envAddress("PUB");
+	address me = vm.envAddress("PUB");
 
 	function run () external {
 

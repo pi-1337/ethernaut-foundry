@@ -34,7 +34,7 @@ contract GatekeeperTwoSolver is Script {
     GatekeeperTwo public instance = GatekeeperTwo(0x63254338599ec40Bb12485072A1968d414B78cb2);
 
 	uint256 prv = vm.envUint("PRV");
-	address pub = vm.envAddress("PUB");
+	address me = vm.envAddress("PUB");
 
     function run() external {
         

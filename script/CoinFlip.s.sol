@@ -22,7 +22,7 @@ contract CoinFlipSolver is Script {
 	CoinFlip public instance = CoinFlip(0x38c2fbc3D1d62AC1349A99AA1fD38861Eb02C8c2);
 
 	uint256 prv = vm.envUint("PRV");
-	address pub = vm.envAddress("PUB");
+	address me = vm.envAddress("PUB");
 
 	function run () external {
 

@@ -9,7 +9,7 @@ contract TelephoneSolver is Script {
     Token public instance = Token(0x5b84Aee912D7B4247787230E9057f07feAc1143F);
 
 	uint256 prv = vm.envUint("PRV");
-	address pub = vm.envAddress("PUB");
+	address me = vm.envAddress("PUB");
 
     function run() external {
         vm.startBroadcast(prv);

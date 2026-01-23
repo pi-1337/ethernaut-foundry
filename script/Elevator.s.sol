@@ -28,7 +28,7 @@ contract ElevatorSolver is Script {
     Elevator public instance = Elevator(0x2A426e4F1f2808ac173090BF8Bb485F9e40f7bf2);
 
 	uint256 prv = vm.envUint("PRV");
-	address pub = vm.envAddress("PUB");
+	address me = vm.envAddress("PUB");
 
     function run() external {
         vm.startBroadcast(prv);

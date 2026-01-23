@@ -35,7 +35,7 @@ contract ReentranceSolver is Script {
     Reentrance public instance = Reentrance(0xdABBc0d7DB7C4a4b50bDdb3b11c4e48f3E90ed52);
 
 	uint256 prv = vm.envUint("PRV");
-	address pub = vm.envAddress("PUB");
+	address me = vm.envAddress("PUB");
 
     function run() external {
         vm.startBroadcast(prv);

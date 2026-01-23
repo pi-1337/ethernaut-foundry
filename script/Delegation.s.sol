@@ -9,7 +9,7 @@ contract TelephoneSolver is Script {
     Delegation public instance = Delegation(payable(0x3b3dA2143744c7e1ad26F61C6CdF64c13A0eC236));
 
 	uint256 prv = vm.envUint("PRV");
-	address pub = vm.envAddress("PUB");
+	address me = vm.envAddress("PUB");
 
     function run() external {
         vm.startBroadcast(prv);
