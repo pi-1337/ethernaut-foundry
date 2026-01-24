@@ -78,11 +78,11 @@ contract ShogunKiller is Script {
         // address(vbs).call(payload);
 
 
-        bytes memory payload = bytes.concat(
-            bytes4(keccak256("mirrorRite(bytes)"))
-        );
-        vbs.mirrorRite(payload);
-        vbs.voidAttune(bladeId);
+        // bytes memory payload = bytes.concat(
+        //     bytes4(keccak256("mirrorRite(bytes)"))
+        // );
+        // vbs.mirrorRite(payload);
+        // vbs.voidAttune(bladeId);
 
 
 

@@ -14,3 +14,4 @@ contract VoidBoundBlade {
         return !SANCTUM.getShogun().alive;
     }
 }
+
