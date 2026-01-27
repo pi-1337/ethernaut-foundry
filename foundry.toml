@@ -1,0 +1,14 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+
+remappings = [
+    "@openzeppelin/=lib/openzeppelin-contracts/",
+    "@openzeppelin-06/=lib/openzeppelin-contracts-06/",
+]
+
+etherscan_api_key = '${ETHERSCAN_KEY}'
+eth_rpc_url = 'https://eth-sepolia.g.alchemy.com/v2/25qYHUwT9jfhBOitfBbAqCVR9yib1lC6'
+
+runs = 10_000
