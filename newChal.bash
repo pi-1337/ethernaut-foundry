@@ -2,12 +2,12 @@ touch ./src/$1.sol
 touch ./script/$1.s.sol
 cp ./script/Token.s.sol ./script/$1.s.sol
 export payload='s/Token/'
-export payload+=$1
-export payload+='/g'
+export payload=$payload$1
+export payload=$payload'/g'
 sed -i -e $payload ./script/$1.s.sol
 export payload='s/0x5b84Aee912D7B4247787230E9057f07feAc1143F/'
-export payload+=$2
-export payload+='/g'
+export payload=$payload$2
+export payload=$payload'/g'
 sed -i -e $payload ./script/$1.s.sol
 ls src | grep $1
 ls script | grep $1
