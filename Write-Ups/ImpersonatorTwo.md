@@ -78,7 +78,7 @@ Well It is because ECDSA is based on *Elliptic Curve Cryptography* which is one 
 Elliptic Curve Discrete Log Problem is the problem defined as:
 
 $$
-\begin{array}{l}
+\begin{array}{m}
 \text{given two Elliptic Curve points } G \text{ and } P \text{ in an Elliptic Curve } E\\
 \text{find d such that } \\
 P = d * G \\
