@@ -126,7 +126,7 @@ But what is $r$ ?
 $r$ is the c-coordinate of $k*G$
 
 $$
-\begin{array}{l}
+\begin{array}{m}
 r = x(k \cdot G) \\
 \text{(where } k \text{ is the nonce of the signature)} \\
 \text{For two } r \text{'s (} r_1, r_2 \text{) to be equal, it must be that:} \\
@@ -144,6 +144,7 @@ k1 = -k2 \mod n \\
 \text{where n is the order of Ellpitic Curve Secp256k1 used in Bitcoin and Ethereum}
 \end{array}
 $$
+
 but since the two v's are equal : 
 
 $$(v1 = v2)$$
@@ -183,26 +184,22 @@ $$
 \begin{array}{m}
 \text{since k is reused in the two signatures.} \\
 \text{recovery of the nonce }k : \\
-
 \begin{array}{l}
 (1):
 \begin{cases}
 s_1 \equiv k^{-1}.(z_1 + r.x) \pmod{n} \\
 s_2 \equiv k^{-1}.(z_2 + r.x) \pmod{n} \\
 \end{cases}\\
-
 \iff\ \begin{cases}
 k.s_1 \equiv z_1 + r.x \pmod{n} \\
 k.s_2 \equiv z_2 + r.x \pmod{n} \\
 \end{cases}\\
-
 \iff\ 
 k.(s_1 - s_2) \equiv z_1 + r.x - z_2 - r.x \pmod{n} \\
 \iff\ 
 k.(s_1 - s_2) \equiv z_1 - z_2 \pmod{n} \\
 \iff\ 
 k \equiv (z_1 - z_2).(s_1 - s_2)^{-1} \pmod{n} \\
-
 \end{array}
 \end{array}
 $$
@@ -214,34 +211,28 @@ $$
 \begin{array}{m}
 \text{now we already calculated } k \\
 \text{recovery of the private key }x : \\
-
 \begin{array}{l}
 (1):
 \begin{cases}
 s_1 \equiv k^{-1}.(z_1 + r.x) \pmod{n} \\
 s_2 \equiv k^{-1}.(z_2 + r.x) \pmod{n} \\
 \end{cases}\\
-
 \iff\ \begin{cases}
 k.s_1 \equiv z_1 + r.x \pmod{n} \\
 k.s_2 \equiv z_2 + r.x \pmod{n} \\
 \end{cases}\\
-
 \iff\ \begin{cases}
 k.s_1 -  z_1 \equiv r.x \pmod{n} \\
 k.s_2 -  z_2 \equiv r.x \pmod{n} \\
 \end{cases}\\
-
 \iff\ \begin{cases}
 r.x \equiv k.s_1 - z_1 \pmod{n} \\
 r.x \equiv k.s_2 - z_2 \pmod{n} \\
 \end{cases}\\
-
 \iff\ \begin{cases}
 x \equiv (k.s_1 - z_1).r^{-1} \pmod{n} \\
 x \equiv (k.s_2 - z_2).r^{-1} \pmod{n} \\
 \end{cases}\\
-
 \end{array}
 \end{array}
 $$
