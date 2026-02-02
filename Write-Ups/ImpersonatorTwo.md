@@ -133,6 +133,17 @@ x(k_1*G) = x(k_2*G) \\
 \end{array}
 $$
 
+$$
+\begin{array}{l}
+r = x(k \cdot G) \\
+\text{(where } k \text{ is the nonce of the signature)} \\
+\text{For two } r \text{'s (} r_1, r_2 \text{) to be equal, it must be that:} \\
+x(k_1 \cdot G) = x(k_2 \cdot G) \\
+\text{(where } x() \text{ is the x-coordinate of the point)} \\
+\end{array}
+$$
+
+
 Just to be clear, this does not necessarily mean that the nonce is repeated, the two nonce might just be opposites of each other 
 
 $$
