@@ -3,7 +3,7 @@
 This challenge is a part of [The Ethernaut CTF](https://ethernaut.openzeppelin.com) and It is the 37th challenge.
 This is the description of the challenge:
 
-*The goal of this level is for you to steal all the funds from the contract.
+*The goal of this level is for you to steal all the funds from the contract.*
 
 *Things that might help:*
 - *Look carefully at the 2 signatures that the owner of the contract used to lock it and set the admin.*
