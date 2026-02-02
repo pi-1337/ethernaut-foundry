@@ -120,18 +120,10 @@ here are the two signatures the owner signed :
 ```
 
 I kept looking at this for a while, then I instantly noticed the disaster, repeated $r$ ???
-But what is $r$ ?
-$r$ is the c-coordinate of $k*G$
 
-$$
-\begin{array}{m}
-r = x(k*G) \\
-\text{(where k is the nonce of the signature)} \\
-\text{for two r's (r1, r2) to be equal it must be that :} \\
-x(k_1*G) = x(k_2*G) \\
-\text{(where x() is the x-coordinate of the point)} \\
-\end{array}
-$$
+But what is $r$ ?
+
+$r$ is the c-coordinate of $k*G$
 
 $$
 \begin{array}{l}
