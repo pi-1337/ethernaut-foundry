@@ -76,6 +76,7 @@ Why *impossible*, you ask ?
 Well It is because ECDSA is based on *Elliptic Curve Cryptography* which is one of modern public-key cryptosystems in modern cryptography. And It is considered secure because of the Hardness of the EC-DLP problem (Elliptic Curve Discrete Log Problem).
 
 Elliptic Curve Discrete Log Problem is the problem defined as:
+
 $$
 \begin{array}{l}
 \text{given two Elliptic Curve points } G \text{ and } P \text{ in an Elliptic Curve } E\\
@@ -121,6 +122,7 @@ here are the two signatures the owner signed :
 I kept looking at this for a while, then I instantly noticed the disaster, repeated $r$ ???
 But what is $r$ ?
 $r$ is the c-coordinate of $k*G$
+
 $$
 \begin{array}{m}
 r = x(k*G) \\
@@ -132,6 +134,7 @@ x(k_1*G) = x(k_2*G) \\
 $$
 
 Just to be clear, this does not necessarily mean that the nonce is repeated, the two nonce might just be opposites of each other 
+
 $$
 \begin{array}{m}
 k1 = -k2 \mod n \\
@@ -139,7 +142,9 @@ k1 = -k2 \mod n \\
 \end{array}
 $$
 but since the two v's are equal : 
+
 $$(v1 = v2)$$
+
 This settles it !! the nonces are the same $k_1 = k_2$.
 Why ? Because these two tell us basically if point is above the half of the order.
 TL:DR: same $r$ and same $v$ means same $k$.
@@ -152,6 +157,7 @@ Meaning the attacker can actually sign ANY transaction in the name of the victim
 ### Why is nonce reuse a probelm ?
 
 This is the signing equation of ECDSA :
+
 $$
 \begin{array}{m}
 s_i = k_i^{-1}(z_i + r_i.x) \\
@@ -160,13 +166,16 @@ s_i = k_i^{-1}(z_i + r_i.x) \\
 $$
 
 given two such equations where the r and k are repeated :
+
 $$
 \begin{cases}
 s_1 \equiv k^{-1}.(z_1 + r.x) \pmod{n} \\
 s_2 \equiv k^{-1}.(z_2 + r.x) \pmod{n} \\
 \end{cases}
 $$
+
 It is possible to recover $k$, which is dangerous, here is why : 
+
 $$
 \begin{array}{m}
 \text{since k is reused in the two signatures.} \\
@@ -336,7 +345,8 @@ Now for the Foundry script :
 
 Note: to get $z_1$ and $z_2$ that are not stored on the Blockchain, we have to go back in time, I went to etherscan and activate "advanced mode", and seen the the function calls done in the instance creation transaction, and to get the hashes of the messages, I had to know what function took effect the first, it turns out that the function at the top is the last executed :
 
-![[writeup.webp]]
+![etherscan](etherscan.webp)
+
 In this example, this means that the *switchLock* function is executed after *setAdmin*.
 Why is this important ?
 Because the call to these two function increments the *nonce* state variable which changes the hash of the message being signed (nonce here is not $k$ !!!!!!).
