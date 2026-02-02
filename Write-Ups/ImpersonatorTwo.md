@@ -201,9 +201,6 @@ k.(s_1 - s_2) \equiv z_1 - z_2 \pmod{n} \\
 k \equiv (z_1 - z_2).(s_1 - s_2)^{-1} \pmod{n} \\
 
 \end{array}
-
-
-
 \end{array}
 $$
 
@@ -243,9 +240,6 @@ x \equiv (k.s_2 - z_2).r^{-1} \pmod{n} \\
 \end{cases}\\
 
 \end{array}
-
-
-
 \end{array}
 $$
 
