@@ -83,7 +83,7 @@ $$
 \text{find d such that } \\
 P = d * G \\
 \text{where } * \text{ denotes the scalar multiplication on } E \\
-\text{This problem is considered Hard, more precisely, Is is an NP problem.}
+\text{This problem is considered and believed to be a Hard problem, more precisely and formaly, It is an NP problem.}
 \end{array}
 $$
 
