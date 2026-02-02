@@ -8,7 +8,7 @@ import {ECDSA} from "openzeppelin-contracts/contracts/utils/cryptography/ECDSA.s
 
 contract ImpersonatorTwoSolver is Script {
 
-	ImpersonatorTwo public instance = ImpersonatorTwo(0x3239d91108EcD565Fde17BD6a7D68305FCA2E3AF);
+	ImpersonatorTwo public instance = ImpersonatorTwo(0x74be582EC8919233a82fcf51f885eb3fcaF67843);
 
 	uint256 prv = vm.envUint("PRV");
 	address me = vm.envAddress("PUB");
