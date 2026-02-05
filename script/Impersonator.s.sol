@@ -6,7 +6,7 @@ import { Impersonator, ECLocker } from "../src/Impersonator.sol";
 
 contract ImpersonatorSolver is Script {
 	
-	Impersonator public instance = Impersonator(0x4805c833dEd50857f69cbF3903ee7ee9171CAB9E);
+	Impersonator public instance = Impersonator(0xEF03c121d481c611e4439480709DBfB046c6DB62);
 
 	uint256 prv = vm.envUint("PRV");
 	address me = vm.envAddress("PUB");

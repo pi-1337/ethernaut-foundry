@@ -84,7 +84,7 @@ contract Cashback is ERC1155 layout at 0x442a95e7a6e84627e9cbb594ad6d8331d52abc7
         _;
     }
 
-    modifier notOnCashback() {
+    modifier notOnCashback() { // delegatecall
         require(address(this) != address(CASHBACK_ACCOUNT), CashbackNotAllowedInCashback());
         _;
     }
@@ -124,19 +124,23 @@ contract Cashback is ERC1155 layout at 0x442a95e7a6e84627e9cbb594ad6d8331d52abc7
     receive() external payable onlyNotCashback {}
 
     constructor(
-        address[] memory cashbackCurrencies,
-        uint256[] memory currenciesCashbackRates,
-        uint256[] memory currenciesMaxCashback,
-        address _superCashbackNFT
     ) ERC1155("") {
-        uint256 len = cashbackCurrencies.length;
-        for (uint256 i = 0; i < len; i++) {
-            cashbackRates[Currency.wrap(cashbackCurrencies[i])] = currenciesCashbackRates[i];
-            maxCashback[Currency.wrap(cashbackCurrencies[i])] = currenciesMaxCashback[i];
-        }
-
-        superCashbackNFT = _superCashbackNFT;
     }
+
+    // constructor(
+    //     address[] memory cashbackCurrencies,
+    //     uint256[] memory currenciesCashbackRates,
+    //     uint256[] memory currenciesMaxCashback,
+    //     address _superCashbackNFT
+    // ) ERC1155("") {
+    //     uint256 len = cashbackCurrencies.length;
+    //     for (uint256 i = 0; i < len; i++) {
+    //         cashbackRates[Currency.wrap(cashbackCurrencies[i])] = currenciesCashbackRates[i];
+    //         maxCashback[Currency.wrap(cashbackCurrencies[i])] = currenciesMaxCashback[i];
+    //     }
+
+    //     superCashbackNFT = _superCashbackNFT;
+    // }
 
     // Implementation Functions
     function accrueCashback(Currency currency, uint256 amount) external onlyDelegatedToCashback onlyUnlocked onlyOnCashback{
@@ -162,7 +166,7 @@ contract Cashback is ERC1155 layout at 0x442a95e7a6e84627e9cbb594ad6d8331d52abc7
     }
 
     // Smart Account Functions
-    function payWithCashback(Currency currency, address receiver, uint256 amount) external unlock onlyEOA notOnCashback {
+    function payWithCashback(Currency currency, address receiver, uint256 amount) external unlock onlyEOA /*notOnCashback*/ {
         currency.transfer(receiver, amount);
         CASHBACK_ACCOUNT.accrueCashback(currency, amount);
     }
