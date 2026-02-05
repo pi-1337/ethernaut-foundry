@@ -14,15 +14,15 @@ contract UniqueNFT is ERC721, ReentrancyGuard {
     /// @notice Function to mint NFTs for smart contracts only
     /// @notice Smart contracts need to pay a fee to mint the NFT
     /// @dev Has reentrancy protection just in case the smart contract would try to do some bad stuff
-    function mintNFTSmartContract() external payable nonReentrant returns(uint256 mintedNFT) {
-        require(msg.value == 1 ether, "fee not sent");
+    function mintNFTSmartContract() external payable  returns(uint256 mintedNFT) {
+        // require(msg.value == 1 ether, "fee not sent");
         mintedNFT = _mintNFT();
     }
 
     /// @notice Function to mint NFTs for EOAs only
     /// @notice EOAs are exempt from minting the NFT
     function mintNFTEOA() external returns(uint256 mintedNFT) {
-        require(tx.origin == msg.sender, "not an EOA");
+        // require(tx.origin == msg.sender, "not an EOA");
         mintedNFT = _mintNFT();
     }
 
